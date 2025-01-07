@@ -3,8 +3,8 @@ using api.Dtos.Stock;
 using api.helpers;
 using api.interfaces;
 using api.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.controllers
 {
@@ -14,6 +14,7 @@ namespace api.controllers
     {
         private readonly IStockRepository _stockRepo = stockRepo;
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
