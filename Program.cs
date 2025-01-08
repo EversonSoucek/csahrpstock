@@ -3,6 +3,7 @@ using api.interfaces;
 using api.Repository;
 using csahrpstock.interfaces;
 using csahrpstock.models;
+using csahrpstock.Repository;
 using csahrpstock.service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -51,6 +52,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseMySql(

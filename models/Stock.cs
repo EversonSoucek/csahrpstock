@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
+using csahrpstock.models;
 
 namespace api.models
 {
+    [Table("Stock")]
     public class Stock
     {
         public int Id { get; set; }
@@ -21,5 +23,6 @@ namespace api.models
         public string Industry { get; set; } = string.Empty;
         public long MarketCap {get;set;}
         public List<Comment> Comment {get;set;} = new List<Comment>();
+        public List<Portfolio> Portfolio {get; set;} = new List<Portfolio>();
     }
 }
