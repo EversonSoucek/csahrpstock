@@ -1,16 +1,26 @@
 using api.Dtos.Comment;
 using api.interfaces;
 using api.Mappers;
+using csahrpstock.extensions;
+using csahrpstock.models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.controllers
 {
     [Route("api/comment")]
     [ApiController]
-    public class CommentController(ICommentRepository commentRepo, IStockRepository stockRepo) : ControllerBase
+    public class CommentController : ControllerBase
     {
-        private readonly ICommentRepository _commentRepo = commentRepo;
-        private readonly IStockRepository _stockRepo = stockRepo;
+        private readonly ICommentRepository _commentRepo;
+        private readonly IStockRepository _stockRepo;
+        private readonly UserManager<AppUser> _userManager;
+
+        public CommentController(ICommentRepository commentRepo, IStockRepository stockRepo, UserManager<AppUser> userManager){
+            _commentRepo = commentRepo;
+            _stockRepo = stockRepo;
+            _userManager = userManager;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -50,7 +60,11 @@ namespace api.controllers
                 return BadRequest("Stock does not exist");
             }
 
+            var userName = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(userName);
+
             var commentModel = CommentDto.ToCommentFromCreate(stockId);
+            commentModel.AppUserId = appUser.Id; //precisa usar include para adicionar, descobrir pq
             await _commentRepo.CreateAsync(commentModel);
             return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel.ToCommentDto());
         }

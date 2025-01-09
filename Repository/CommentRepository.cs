@@ -29,13 +29,13 @@ namespace api.Repository
 
         public async Task<List<CommentDto>> GetAllSync()
         {
-            return await _context.Comment.Select(s => s.ToCommentDto()).ToListAsync();
+            return await _context.Comment.Include(a => a.AppUser).Select(s => s.ToCommentDto()).ToListAsync();
         }
 
 
         public async Task<Comment?> GetByIdSync(int id)
         {
-            return await _context.Comment.FindAsync(id);
+            return await _context.Comment.Include(a => a.AppUser).FirstOrDefaultAsync(c => c.Id == id );
         }
 
         public async Task<Comment?> UpdateAsync(int id, Comment commentModel)

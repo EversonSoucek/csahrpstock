@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using csahrpstock.models;
 
 namespace api.models
 {
-    [Table("Comments")]
+    [Table("Comment")]
     public class Comment
     {
         public int Id { get; set; }
@@ -11,6 +12,7 @@ namespace api.models
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public int? StockId { get; set; }
         public Stock? Stock {get; set;}
-
+        public string AppUserId {get; set;}
+        public AppUser AppUser  {get;set;}
     }
 }

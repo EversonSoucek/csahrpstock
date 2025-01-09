@@ -4,6 +4,7 @@ using api.helpers;
 using api.interfaces;
 using api.Mappers;
 using api.models;
+using csahrpstock.models;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Repository
@@ -37,7 +38,7 @@ namespace api.Repository
 
         public async Task<List<StockDto>> GetAllAsync(QueryObject query)
         {
-            var stocks = _context.Stock.Include(c => c.Comment).AsQueryable();
+            var stocks = _context.Stock.Include(c => c.Comment).ThenInclude(a => a.AppUser).AsQueryable();
             if(!string.IsNullOrWhiteSpace(query.CompanyName)){
                 stocks = stocks.Where(stock => stock.CompanyName.Contains(query.CompanyName));
             }
