@@ -1,5 +1,6 @@
 using api.Dtos.Stock;
 using api.models;
+using csahrpstock.models;
 
 namespace api.Mappers
 {
@@ -26,6 +27,17 @@ namespace api.Mappers
                 LastDiv = stockDto.LastDiv,
                 MarketCap = stockDto.MarketCap,
                 Purchase = stockDto.Purchase
+            };
+        }
+
+        public static Stock ToStockFromFMP (this FMPStock fmpStock) {
+            return new Stock {
+                Symbol = fmpStock.symbol,
+                CompanyName = fmpStock.companyName,
+                Industry = fmpStock.industry,
+                LastDiv = (decimal)fmpStock.lastDiv,
+                MarketCap = fmpStock.mktCap,
+                Purchase = (decimal)fmpStock.price
             };
         }
     }
